@@ -1,0 +1,72 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: mini-core-banking
+  profiles:
+    active: local
+
+  # --- 데이터소스 (Phase 2 이후) ---
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/banking}
+    username: ${DB_USERNAME:banking}
+    password: ${DB_PASSWORD:banking}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+  # --- JPA ---
+  # 스키마는 Flyway 가 관리, JPA 는 검증만.
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Seoul
+    open-in-view: false
+    show-sql: false
+
+  # --- Flyway ---
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+  jackson:
+    default-property-inclusion: non_null
+    # 금액/잔액은 JSON 직렬화 시 절대 부동소수점이 되면 안 됨 — BigDecimal 을 plain string 으로
+    serialization:
+      write-bigdecimal-as-plain: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+
+# --- 은행 도메인 설정 ---
+banking:
+  account:
+    bank-code: "110"       # 신한/임의 은행 코드 (3자리)
+    default-product-code: "01"  # 보통예금 기본 상품코드 (2자리)
+
+logging:
+  level:
+    com.banking: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: INFO
