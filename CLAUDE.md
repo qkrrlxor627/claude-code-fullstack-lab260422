@@ -39,6 +39,16 @@
 - `/compact` 는 **선택적 지시** 와 함께 사용 (예: `/compact 핵심 흐름만 보존`)
 - `/clear` 는 관심사 전환 시 (Phase 전환 등)
 
+## Plan Logging Rule
+
+Plan Mode 를 통해 승인된 플랜은 **항상** `./docs/plan-log.md` 에 append 한다.
+
+- 포맷: 파일 맨 아래(`<!-- 다음 플랜은 ... -->` 주석 위) 에 `## YYYY-MM-DD — 주제` 헤더로 새 섹션 추가
+- 기존 엔트리는 **수정하지 않는다** — 항상 append 만
+- 플랜 본문은 헤딩 한 단계 demote (원본 `##` → `###`)
+- 실행 결과/검증 결과도 같이 기록 (완료 여부, 주요 PASS/FAIL)
+- 플랜 원본은 세션 임시 파일(`~/.claude/plans/*.md`)에 남지만 이 로그가 **프로젝트의 지속 기록**
+
 ## 활성 프로젝트 (상세는 각 README 참고)
 
 - `backend/mini-core-banking/` — 코어뱅킹 토이 (Spring Boot 3.3.5 + PostgreSQL 16 + Redis 7)
