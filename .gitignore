@@ -1,0 +1,27 @@
+# Claude Code 세션 상태
+.claude/
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.project
+.classpath
+.settings/
+
+# Gradle
+**/build/
+**/.gradle/
+!**/src/**/build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs / env
+*.log
+.env
+.env.local
+.env.*.local
